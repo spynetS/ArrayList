@@ -63,8 +63,10 @@ void addValue(ArrayList* list, void *value){
      list->data = realloc(list->data,sizeof(void*)*(list->size*2));
      list->arraySize = list->size*2;
   }
-  list->data[list->size] = malloc(sizeof(void*));
-  memcpy(list->data[list->size],value,sizeof(void*));
+  size_t s = strlen(((char*)value));
+
+  list->data[list->size] = malloc(s);
+  memcpy(list->data[list->size],value,s);
   list->size++;
 }
 
@@ -77,8 +79,9 @@ void clearArrayList(ArrayList* list){
 
 void* popValue(ArrayList* list){
   void* value = getValue(list,list->size-1);
-  void* ret = malloc(sizeof(value));
-  memcpy(ret,value,sizeof(value));
+  size_t s = strlen(((char*)value));
+  void* ret = malloc(s);
+  memcpy(ret,value,  s);
 
   removeValue(list,list->size-1);
   return ret;
@@ -86,19 +89,19 @@ void* popValue(ArrayList* list){
 
 /* int main(){ */
 /*   ArrayList *list = newList(); */
-/*   addValue(list,"asd1"); */
-/*   addValue(list,"asd2"); */
-/*   addValue(list,"asd3"); */
+/*   addValue(list,&"0123456789101112"); */
 
 /*   char* poped = (char*)popValue(list); */
 /*   printf("poped %s\n",poped); */
-/*   free(poped); */
-/*   poped = (char*)popValue(list); */
-/*   printf("poped %s\n",poped); */
-/*   free(poped); */
-/*   poped = (char*)popValue(list); */
-/*   printf("poped %s\n",poped); */
-/*   free(poped); */
+
+/*   int i = -10000; */
+/*   addValue(list,&i); */
+/*   char c = 'a'; */
+/*   addValue(list,&c); */
+
+
+/*   printf("poped %d\n",*(int*)list->data[0]); */
+/*   printf("poped %c\n",*(char*)list->data[1]); */
 
 /*   destroyArrayList(list); */
 /*   return 0; */
