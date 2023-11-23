@@ -1,5 +1,5 @@
 # ArrayList
-This is a generic ArrayList implementation.
+This is a generic ArrayList implementation in c.
 
 ## Exmaple of use
 ```c
