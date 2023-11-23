@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 typedef struct arrayList{
   void** data;
@@ -19,8 +20,8 @@ ArrayList* newList(){
 
 void addPoinerValue(ArrayList* list, void* value){
   if(list->size >= list->arraySize){
-     list->data = realloc(list->data,sizeof(void*)*(list->size*2));
-     list->arraySize = list->size*2;
+     list->data = realloc(list->data,sizeof(void*)*(list->size+1));
+     list->arraySize = list->size+1;
   }
   list->data[list->size] = value;
   list->size++;
@@ -48,6 +49,18 @@ void removeValue(ArrayList* list, int index){
     list->data[i] = list->data[i+1];
   }
   list->size--;
+}
+
+void removeValueFAST(ArrayList* list, int index)
+{
+  free(list->data[index]);
+  list->data += index - 1;
+
+  void **temp = (void**)malloc(sizeof(void*) * (list->size - index));
+  memcpy(&temp, list->data + 2, sizeof(void*) * (list->size - index));
+
+  list->data -= (index - 1);
+  memcpy(&list->data, &temp, sizeof(void*) * (list->size - index));
 }
 
 void destroyArrayList(ArrayList* list){
@@ -87,22 +100,22 @@ void* popValue(ArrayList* list){
   return ret;
 }
 
-/* int main(){ */
-/*   ArrayList *list = newList(); */
-/*   addValue(list,&"0123456789101112"); */
+int main(){
+  ArrayList *list = newListWithSize(100000000); // create list
 
-/*   char* poped = (char*)popValue(list); */
-/*   printf("poped %s\n",poped); */
+  for(int i = 0; i < 100000000; i ++){
+    addValue(list,"a");
+  }
 
-/*   int i = -10000; */
-/*   addValue(list,&i); */
-/*   char c = 'a'; */
-/*   addValue(list,&c); */
+  clock_t t;
+  t = clock();
+  removeValue(list,1);
+  t = clock() - t;
+  double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
 
+    printf("fun() took %f seconds to execute \n", time_taken);
 
-/*   printf("poped %d\n",*(int*)list->data[0]); */
-/*   printf("poped %c\n",*(char*)list->data[1]); */
-
-/*   destroyArrayList(list); */
-/*   return 0; */
-/* } */
+  //free list
+  destroyArrayList(list);
+  return 0;
+}
