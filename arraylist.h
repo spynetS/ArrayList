@@ -1,3 +1,5 @@
+#ifndef arraylist_FILE
+#define arraylist_FILE
 /*
   Alfred Roos 2023
   This is a generic ArrayList implementation.
@@ -86,3 +88,5 @@ void clearArrayList(ArrayList* list);
    REMEMBER TO FREE THE RETURNED VALUE WHEN DONE
    */
 void * popValue(ArrayList* list);
+
+#endif
