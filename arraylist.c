@@ -57,14 +57,17 @@ void removeValue(ArrayList* list, int index){
 
 void removeValueFAST(ArrayList* list, int index)
 {
+  //puts("here");
   free(list->data[index]);
   list->data += index - 1;
 
-  void **temp = (void**)malloc(sizeof(void*) * (list->size - index));
-  memcpy(&temp, list->data + 2, sizeof(void*) * (list->size - index));
+  //puts("here2");
+  int x = (list->size - index);
 
+  memcpy(list->data + 1, list->data + 2, sizeof(void*) * x);
+  //puts("here4");
   list->data -= (index - 1);
-  memcpy(&list->data, &temp, sizeof(void*) * (list->size - index));
+  free(list->data[list->size - 1]);
 }
 
 void destroyArrayList(ArrayList* list){
@@ -113,13 +116,13 @@ int main(){
 
   clock_t t;
   t = clock();
-  removeValue(list,1);
+  removeValueFAST(list,1);
   t = clock() - t;
   double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
 
-    printf("fun() took %f seconds to execute \n", time_taken);
+  printf("fun() took %f seconds to execute \n", time_taken);
 
   //free list
-  destroyArrayList(list);
+  //destroyArrayList(list);
   return 0;
 }
