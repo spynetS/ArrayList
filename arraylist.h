@@ -75,3 +75,14 @@ void addValue(ArrayList* list, void *value);
    allready is allocated. REMEMBER THAT THE LIST WILL FREE IT FOR YOU
    * */
 void addPoinerValue(ArrayList* list, void* value);
+
+/**
+   Removes all elements
+   * */
+void clearArrayList(ArrayList* list);
+
+/**
+   return and removes last newest added to the list
+   REMEMBER TO FREE THE RETURNED VALUE WHEN DONE
+   */
+void * popValue(ArrayList* list);

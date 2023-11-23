@@ -41,7 +41,6 @@ void removeValue(ArrayList* list, int index){
   // [1,2,3,4,5,6,7,9,0]
   // free the index to remove
   if(index>=0){
-    printf("removes %s\n",(char*)list->data[index]);
     free(list->data[index]);
   }
   for(int i = index; i < list->size-1; i ++){
@@ -72,26 +71,31 @@ void clearArrayList(ArrayList* list){
   list->size = 0;
 }
 
-int main(){
-  ArrayList *list = newList();
-  addValue(list,"asd1");
-  addValue(list,"asd2");
-  addValue(list,"asd3");
+void* popValue(ArrayList* list){
+  void* value = getValue(list,list->size-1);
+  void* ret = malloc(sizeof(value));
+  memcpy(ret,value,sizeof(value));
 
-  printListString(list);
-
-  clearArrayList(list);
-
-  int age;
-  printf("Write the ages: ");
-  while(scanf("%d",&age)>0){
-    printf("Write the ages: ");
-    addValue(list,&age);
-  }
-  for(int i = 0; i < list->size; i ++){
-    printf("Age %d: %d\n",i, *(int*)getValue(list,i));
-  }
-
-  destroyArrayList(list);
-  return 0;
+  removeValue(list,list->size-1);
+  return ret;
 }
+
+/* int main(){ */
+/*   ArrayList *list = newList(); */
+/*   addValue(list,"asd1"); */
+/*   addValue(list,"asd2"); */
+/*   addValue(list,"asd3"); */
+
+/*   char* poped = (char*)popValue(list); */
+/*   printf("poped %s\n",poped); */
+/*   free(poped); */
+/*   poped = (char*)popValue(list); */
+/*   printf("poped %s\n",poped); */
+/*   free(poped); */
+/*   poped = (char*)popValue(list); */
+/*   printf("poped %s\n",poped); */
+/*   free(poped); */
+
+/*   destroyArrayList(list); */
+/*   return 0; */
+/* } */
