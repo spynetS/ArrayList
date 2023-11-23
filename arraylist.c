@@ -1,15 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "arraylist.h"
 
-typedef struct arrayList{
-  void** data;
-  int size;
-  int arraySize;
-} ArrayList;
+ArrayList* newListWithSize(int init_size){
 
-ArrayList* newList(){
-  int init_size = 10;
   ArrayList *list = (ArrayList*) malloc(sizeof(ArrayList));
   list->size = 0;
   list->arraySize = init_size;
@@ -17,7 +12,16 @@ ArrayList* newList(){
   return list;
 }
 
-void addPoinerValue(ArrayList* list, void* value){
+ArrayList* newList(){
+
+  ArrayList *list = (ArrayList*) malloc(sizeof(ArrayList));
+  list->size = 0;
+  list->arraySize = INIT_SIZE;
+  list->data = (void*)malloc(sizeof(void*)*INIT_SIZE);
+  return list;
+}
+
+void addPointerValue(ArrayList* list, void* value){
   if(list->size >= list->arraySize){
      list->data = realloc(list->data,sizeof(void*)*(list->size*2));
      list->arraySize = list->size*2;
@@ -63,10 +67,10 @@ void addValue(ArrayList* list, void *value){
      list->data = realloc(list->data,sizeof(void*)*(list->size*2));
      list->arraySize = list->size*2;
   }
-  size_t s = strlen(((char*)value));
+  size_t size = strlen(((char*)value));
+  list->data[list->size] = malloc(size);
+  memcpy(list->data[list->size],value,size);
 
-  list->data[list->size] = malloc(s);
-  memcpy(list->data[list->size],value,s);
   list->size++;
 }
 
