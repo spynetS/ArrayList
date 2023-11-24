@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
+//#include <time.h>
 #include "arraylist.h"
 
 ArrayList* newListWithSize(int init_size){
@@ -41,26 +41,11 @@ void printListString(ArrayList* list){
   }
 }
 
-void removeValue(ArrayList* list, int index){
-  // [1,2,3,4,5,6,7,|8|,9]
-  // [1,2,3,4,5,6,7,9,0]
-  // free the index to remove
-  if(index>=0){
-    free(list->data[index]);
-  }
-  for(int i = index; i < list->size-1; i ++){
-    // after index we move all infront back a step
-    list->data[i] = list->data[i+1];
-  }
-  list->size--;
-}
-
-void removeValueFAST(ArrayList* list, int index)
+void removeValue(ArrayList* list, int index)
 {
   free(list->data[index]);
   memmove(list->data + index, list->data + index + 1, sizeof(void*) * (list->size - index - 1));
   list->size--;
-  //puts("here4");
 }
 
 void destroyArrayList(ArrayList* list){
@@ -100,7 +85,7 @@ void* popValue(ArrayList* list){
   return ret;
 }
 
-int main(){
+/* int main(){
   ArrayList *list = newListWithSize(10); // create list
 
   for(int i = 0; i < 10; i ++){
@@ -118,4 +103,4 @@ int main(){
   //free list
   destroyArrayList(list);
   exit(0);
-}
+} */
