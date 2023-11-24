@@ -58,8 +58,8 @@ void destroyArrayList(ArrayList* list){
 
 void addValue(ArrayList* list, void *value){
   if(list->size >= list->arraySize){
-     list->data = realloc(list->data,sizeof(void*)*(list->size+1));
-     list->arraySize = list->size+1;
+     list->data = realloc(list->data,sizeof(void*)*(list->size*1));
+     list->arraySize = list->size*1;
   }
   size_t size = strlen(((char*)value));
   list->data[list->size] = malloc(size);
