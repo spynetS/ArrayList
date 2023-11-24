@@ -1,5 +1,5 @@
-#ifndef arraylist_FILE
-#define arraylist_FILE
+#ifndef ARRAYLIST_FILE
+#define ARRAYLIST_FILE
 /*
   Alfred Roos 2023
   This is a generic ArrayList implementation.
@@ -35,7 +35,7 @@
 
 */
 
-
+#define INIT_SIZE 10
 
 typedef struct arrayList{
   void** data;
@@ -49,6 +49,12 @@ typedef struct arrayList{
    and return the poiter to the struct
    * */
 ArrayList* newList();
+/**
+   Constructor
+   will allocated the struct and set the default size to 10
+   and return the poiter to the struct
+   * */
+ArrayList* newListWithSize(int init_size);
 /**
    returns the value at index
 * */
@@ -76,7 +82,7 @@ void addValue(ArrayList* list, void *value);
    This function will not allocate memory and expects that the value
    allready is allocated. REMEMBER THAT THE LIST WILL FREE IT FOR YOU
    * */
-void addPoinerValue(ArrayList* list, void* value);
+void addPointerValue(ArrayList* list, void* value);
 
 /**
    Removes all elements

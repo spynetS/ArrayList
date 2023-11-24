@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//#include <time.h>
 #include "arraylist.h"
 
 ArrayList* newListWithSize(int init_size){
@@ -23,8 +24,8 @@ ArrayList* newList(){
 
 void addPointerValue(ArrayList* list, void* value){
   if(list->size >= list->arraySize){
-     list->data = realloc(list->data,sizeof(void*)*(list->size*2));
-     list->arraySize = list->size*2;
+     list->data = realloc(list->data,sizeof(void*)*(list->size+1));
+     list->arraySize = list->size+1;
   }
   list->data[list->size] = value;
   list->size++;
@@ -40,17 +41,10 @@ void printListString(ArrayList* list){
   }
 }
 
-void removeValue(ArrayList* list, int index){
-  // [1,2,3,4,5,6,7,|8|,9]
-  // [1,2,3,4,5,6,7,9,0]
-  // free the index to remove
-  if(index>=0){
-    free(list->data[index]);
-  }
-  for(int i = index; i < list->size-1; i ++){
-    // after index we move all infront back a step
-    list->data[i] = list->data[i+1];
-  }
+void removeValue(ArrayList* list, int index)
+{
+  free(list->data[index]);
+  memmove(list->data + index, list->data + index + 1, sizeof(void*) * (list->size - index - 1));
   list->size--;
 }
 
@@ -64,8 +58,8 @@ void destroyArrayList(ArrayList* list){
 
 void addValue(ArrayList* list, void *value){
   if(list->size >= list->arraySize){
-     list->data = realloc(list->data,sizeof(void*)*(list->size*2));
-     list->arraySize = list->size*2;
+     list->data = realloc(list->data,sizeof(void*)*(list->size+1));
+     list->arraySize = list->size+1;
   }
   size_t size = strlen(((char*)value));
   list->data[list->size] = malloc(size);
@@ -91,22 +85,22 @@ void* popValue(ArrayList* list){
   return ret;
 }
 
-/* int main(){ */
-/*   ArrayList *list = newList(); */
-/*   addValue(list,&"0123456789101112"); */
+/* int main(){
+  ArrayList *list = newListWithSize(10); // create list
 
-/*   char* poped = (char*)popValue(list); */
-/*   printf("poped %s\n",poped); */
+  for(int i = 0; i < 10; i ++){
+    addValue(list,&i);
+  }
 
-/*   int i = -10000; */
-/*   addValue(list,&i); */
-/*   char c = 'a'; */
-/*   addValue(list,&c); */
+  clock_t t;
+  t = clock();
+  removeValueFAST(list,1);
+  t = clock() - t;
+  double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
 
+  printf("fun() took %f seconds to execute \n", time_taken);
 
-/*   printf("poped %d\n",*(int*)list->data[0]); */
-/*   printf("poped %c\n",*(char*)list->data[1]); */
-
-/*   destroyArrayList(list); */
-/*   return 0; */
-/* } */
+  //free list
+  destroyArrayList(list);
+  exit(0);
+} */
