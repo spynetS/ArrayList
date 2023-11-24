@@ -57,8 +57,9 @@ void removeValue(ArrayList* list, int index){
 
 void removeValueFAST(ArrayList* list, int index)
 {
-  memcpy(list->data + index, list->data + index + 1, sizeof(void*) * (list->size - index));
-  free(list->data[list->size - 1]);
+  free(list->data[index]);
+  memmove(list->data + index, list->data + index + 1, sizeof(void*) * (list->size - index - 1));
+  list->size--;
   //puts("here4");
 }
 
@@ -72,8 +73,8 @@ void destroyArrayList(ArrayList* list){
 
 void addValue(ArrayList* list, void *value){
   if(list->size >= list->arraySize){
-     list->data = realloc(list->data,sizeof(void*)*(list->size*2));
-     list->arraySize = list->size*2;
+     list->data = realloc(list->data,sizeof(void*)*(list->size+1));
+     list->arraySize = list->size+1;
   }
   size_t size = strlen(((char*)value));
   list->data[list->size] = malloc(size);
@@ -100,10 +101,10 @@ void* popValue(ArrayList* list){
 }
 
 int main(){
-  ArrayList *list = newListWithSize(100000000); // create list
+  ArrayList *list = newListWithSize(10); // create list
 
-  for(int i = 0; i < 100000000; i ++){
-    addValue(list,"a");
+  for(int i = 0; i < 10; i ++){
+    addValue(list,&i);
   }
 
   clock_t t;
@@ -116,5 +117,5 @@ int main(){
 
   //free list
   destroyArrayList(list);
-  return 0;
+  exit(0);
 }
