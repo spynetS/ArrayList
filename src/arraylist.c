@@ -4,7 +4,7 @@
 //#include <time.h>
 #include "arraylist.h"
 
-ArrayList* newListWithSize(int init_size){
+ArrayList* arraylist_newListWithSize(int init_size){
 
   ArrayList *list = (ArrayList*) malloc(sizeof(ArrayList));
   list->size = 0;
@@ -13,7 +13,7 @@ ArrayList* newListWithSize(int init_size){
   return list;
 }
 
-ArrayList* newList(){
+ArrayList* arraylist_newList(){
 
   ArrayList *list = (ArrayList*) malloc(sizeof(ArrayList));
   list->size = 0;
@@ -22,7 +22,7 @@ ArrayList* newList(){
   return list;
 }
 
-void addPointerValue(ArrayList* list, void* value){
+void arraylist_addPointerValue(ArrayList* list, void* value){
   if(list->size >= list->arraySize){
      list->data = realloc(list->data,sizeof(void*)*(list->size+1));
      list->arraySize = list->size+1;
@@ -31,24 +31,24 @@ void addPointerValue(ArrayList* list, void* value){
   list->size++;
 }
 
-void* getValue(ArrayList* list, int index){
+void* arraylist_getValue(ArrayList* list, int index){
   return list->data[index];
 }
 
-void printListString(ArrayList* list){
+void arraylist_printListString(ArrayList* list){
   for(int i = 0; i < list->size; i ++){
     printf("%d,%s\n",i,((char*)list->data[i]));
   }
 }
 
-void removeValue(ArrayList* list, int index)
+void arraylist_removeValue(ArrayList* list, int index)
 {
   free(list->data[index]);
   memmove(list->data + index, list->data + index + 1, sizeof(void*) * (list->size - index - 1));
   list->size--;
 }
 
-void destroyArrayList(ArrayList* list){
+void arraylist_destroyArrayList(ArrayList* list){
   for(int i = 0; i < list->size; i ++){
     free(list->data[i]);
   }
@@ -56,7 +56,7 @@ void destroyArrayList(ArrayList* list){
   free(list);
 }
 
-void addValue(ArrayList* list, void *value){
+void arraylist_addValue(ArrayList* list, void *value){
   if(list->size >= list->arraySize){
      list->data = realloc(list->data,sizeof(void*)*(list->size*1));
      list->arraySize = list->size*1;
@@ -68,39 +68,39 @@ void addValue(ArrayList* list, void *value){
   list->size++;
 }
 
-void clearArrayList(ArrayList* list){
+void arraylist_clearArrayList(ArrayList* list){
   for(int i = 0; i < list->size; i ++){
     free(list->data[i]);
   }
   list->size = 0;
 }
 
-void* popValue(ArrayList* list){
-  void* value = getValue(list,list->size-1);
+void* arraylist_popValue(ArrayList* list){
+  void* value = arraylist_getValue(list,list->size-1);
   size_t s = strlen(((char*)value));
   void* ret = malloc(s);
   memcpy(ret,value,  s);
 
-  removeValue(list,list->size-1);
+  arraylist_removeValue(list,list->size-1);
   return ret;
 }
 
 /* int main(){
-  ArrayList *list = newListWithSize(10); // create list
+  ArrayList *list = arraylist_newListWithSize(10); // create list
 
   for(int i = 0; i < 10; i ++){
-    addValue(list,&i);
+    arraylist_addValue(list,&i);
   }
 
   clock_t t;
   t = clock();
-  removeValueFAST(list,1);
+  arraylist_removeValueFAST(list,1);
   t = clock() - t;
   double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
 
   printf("fun() took %f seconds to execute \n", time_taken);
 
   //free list
-  destroyArrayList(list);
+  arraylist_destroyArrayList(list);
   exit(0);
 } */
