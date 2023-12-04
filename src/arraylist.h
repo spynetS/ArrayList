@@ -80,7 +80,8 @@ void arraylist_destroyArrayList(ArrayList* list);
 void arraylist_addValue(ArrayList* list, void *value);
 /**
    This function will not allocate memory and expects that the value
-   allready is allocated. REMEMBER THAT THE LIST WILL FREE IT FOR YOU
+   allready is allocated. REMEMBER THAT THE LIST WILL free(value); SO IF
+   YOU HAVE MORE TO FREE (struct) FREE IT YOUR OWN
    * */
 void arraylist_addPointerValue(ArrayList* list, void* value);
 
